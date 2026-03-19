@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sanaré | Radar Oncológico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-card">
+        <img src="assets/logo.png" alt="Sanaré" class="logo" />
+      </div>
+
+      <nav class="side-nav">
+        <button class="nav-btn active" data-target="dashboard">Dashboard</button>
+        <button class="nav-btn" data-target="observaciones">Observaciones</button>
+        <button class="nav-btn" data-target="fuentes">Fuentes</button>
+        <button class="nav-btn" data-target="reporte-diario">Reporte diario</button>
+        <button class="nav-btn" data-target="politica">Política de privacidad</button>
+      </nav>
+    </aside>
+
+    <main class="content">
+    <div class="theme-switcher" aria-label="Selector de tema">
+      <span>Tema</span>
+      <button type="button" class="theme-btn active" data-theme="original">Original</button>
+      <button type="button" class="theme-btn" data-theme="light">Claro difuminado</button>
+    </div>
+
+      <header class="hero" id="dashboard">
+        <div>
+          <span class="eyebrow">Sanaré · captación ética</span>
+          <h1>Radar Oncológico</h1>
+          <p>Monitoreo ético de señales públicas y derivación a canal propio con consentimiento.</p>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <span>Total observaciones</span>
+            <strong id="kpi-total">0</strong>
+          </div>
+          <div class="stat-card">
+            <span>Alta prioridad</span>
+            <strong id="kpi-high">0</strong>
+          </div>
+          <div class="stat-card">
+            <span>Pendientes</span>
+            <strong id="kpi-pending">0</strong>
+          </div>
+        </div>
+      </header>
+
+      <section class="panel-section search-panel" id="busqueda-google">
+        <div class="section-head">
+          <div>
+            <h2>Búsqueda Google embebida</h2>
+            <p>buscador programable, toma resultados públicos para registro de observación. Ahora también puedes lanzar búsquedas sugeridas para LinkedIn y detectar posts públicos.</p>
+          </div>
+          <button class="ghost-btn" id="fill-samples">Cargar búsquedas sugeridas</button>
+        </div>
+
+        <div class="search-row">
+          <input type="text" id="google-query" placeholder='Ej. site:linkedin.com/posts "oncología" "México"' />
+          <button class="primary-btn" id="search-btn">Buscar en el radar</button>
+          <button class="ghost-btn" id="open-google">Abrir en Google</button>
+        </div>
+
+        <div class="chips" id="sample-chips"></div>
+
+        <div class="embed-card">
+          <script async src="https://cse.google.com/cse.js?cx=00d75a0f078dd4f9b"></script>
+          <div class="gcse-searchresults-only"></div>
+        </div>
+
+        <div class="helper-box">
+          <h3>Captura rápida desde resultado abierto</h3>
+          <p>Pega aquí el enlace y una nota breve del hallazgo para enviarlo directo al formulario.</p>
+          <div class="helper-grid">
+            <label>
+              Enlace detectado
+              <input type="url" id="manual-link" placeholder="https://..." />
+            </label>
+            <label>
+              Fuente / sitio
+              <input type="text" id="manual-source" placeholder="facebook.com, doctoralia.com.mx..." />
+            </label>
+            <label class="full-span">
+              Nota breve del hallazgo
+              <textarea id="manual-note" rows="3" placeholder="Ej. familiar solicita centro de infusión en CDMX."></textarea>
+            </label>
+          </div>
+          <div class="actions-inline">
+            <button class="primary-btn" id="send-to-form">Pasar a observación</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel-section" id="observaciones">
+        <div class="section-head">
+          <div>
+            <h2>Registro de observaciones</h2>
+            <p>Guarda únicamente señales comerciales y operativas. No registra datos clínicos sensibles sin consentimiento.</p>
+          </div>
+          <div class="actions-inline">
+            <button class="ghost-btn" id="export-json">Exportar JSON</button>
+            <button class="ghost-btn" id="clear-storage">Limpiar demo</button>
+          </div>
+        </div>
+
+        <form id="obs-form" class="form-grid">
+          <label>
+            Grupo / fuente
+            <input type="text" id="grupo" required />
+          </label>
+          <label>
+            URL del post o resultado
+            <input type="url" id="linkPost" placeholder="https://..." required />
+          </label>
+          <label>
+            Fuente
+            <select id="fuente" required>
+              <option value="Facebook">Facebook</option>
+              <option value="Google Search">Google Search</option>
+              <option value="LinkedIn">LinkedIn</option>
+              <option value="Directorio">Directorio</option>
+              <option value="Hospital">Hospital</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </label>
+          <label>
+            Ciudad
+            <input type="text" id="ciudad" placeholder="CDMX, Toluca, Puebla..." />
+          </label>
+          <label>
+            Categoría
+            <select id="categoria" required>
+              <option value="Centro de infusión">Centro de infusión</option>
+              <option value="Consulta oncológica">Consulta oncológica</option>
+              <option value="Medicamento">Medicamento</option>
+              <option value="Segunda opinión">Segunda opinión</option>
+              <option value="Apoyo / logística">Apoyo / logística</option>
+              <option value="Referencia hospitalaria">Referencia hospitalaria</option>
+              <option value="Contenido general">Contenido general</option>
+            </select>
+          </label>
+          <label>
+            Estatus
+            <select id="estatus" required>
+              <option value="Pendiente">Pendiente</option>
+              <option value="En revisión">En revisión</option>
+              <option value="Contactado">Contactado</option>
+              <option value="Convertido">Convertido</option>
+              <option value="Descartado">Descartado</option>
+            </select>
+          </label>
+          <label>
+            Urgencia
+            <select id="urgencia" required>
+              <option value="Alta">Alta</option>
+              <option value="Media">Media</option>
+              <option value="Baja">Baja</option>
+            </select>
+          </label>
+          <label>
+            Tiene contacto visible
+            <select id="contactoVisible">
+              <option value="Sí">Sí</option>
+              <option value="No">No</option>
+            </select>
+          </label>
+          <label class="full-span">
+            Resumen / señal detectada
+            <textarea id="resumen" rows="4" placeholder="Describe la necesidad observada sin guardar datos clínicos sensibles."></textarea>
+          </label>
+          <label class="full-span">
+            Consulta origen (opcional)
+            <input type="text" id="queryOrigin" placeholder="Se autocompleta con la búsqueda usada en el radar" />
+          </label>
+          <div class="full-span form-submit">
+            <button type="submit" class="primary-btn">Guardar observación</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel-section" id="reporte-diario">
+        <div class="section-head">
+          <div>
+            <h2>Reporte diario automatizado</h2>
+            <p>Consolida las búsquedas hechas en el radar y las observaciones guardadas hoy para armar un reporte ejecutivo sin quitar nada de tu flujo actual.</p>
+          </div>
+          <div class="actions-inline">
+            <button class="ghost-btn" id="save-monitor-settings">Guardar configuración</button>
+            <button class="ghost-btn" id="export-daily-report">Exportar TXT</button>
+            <button class="primary-btn" id="run-daily-monitor">Generar reporte del día</button>
+          </div>
+        </div>
+
+        <div class="monitor-grid">
+          <div class="monitor-box">
+            <h3>Configuración</h3>
+            <div class="helper-grid">
+              <label>
+                URL backend proxy
+                <input type="url" id="backend-api-url" placeholder="https://tu-backend.onrender.com" />
+              </label>
+              <label>
+                SERP API Key (opcional, solo pruebas locales)
+                <input type="password" id="serpapi-key" placeholder="Pega aquí tu api_key de SerpApi" />
+              </label>
+              <label>
+                Resultados por búsqueda API
+                <select id="monitor-results-per-query">
+                  <option value="3">3 resultados</option>
+                  <option value="5" selected>5 resultados</option>
+                  <option value="8">8 resultados</option>
+                </select>
+              </label>
+              <label>
+                Consultas sugeridas base
+                <input type="text" value="8 palabras sugeridas activas" readonly />
+              </label>
+              <label>
+                Autoactualizar una vez al día al abrir
+                <select id="monitor-auto-run">
+                  <option value="off">No</option>
+                  <option value="on">Sí</option>
+                </select>
+              </label>
+              <label>
+                Hallazgos destacados en el resumen
+                <select id="monitor-max-results">
+                  <option value="3">3 hallazgos</option>
+                  <option value="5" selected>5 hallazgos</option>
+                  <option value="8">8 hallazgos</option>
+                </select>
+              </label>
+            </div>
+            <p class="microcopy">Modo recomendado: pega la URL de tu backend proxy y deja la api_key protegida en el archivo .env del servidor. Si no configuras backend, seguirá funcionando con el flujo manual actual. La api_key directa solo queda para pruebas rápidas.</p>
+            <div class="query-origin" id="monitor-status-note">Modo actual: reporte manual sin snippets automáticos.</div>
+            <div class="report-summary" id="monitor-status-detail">Pega la URL de tu backend proxy para traer título, extracto y enlace sin exponer tu key en el navegador.</div>
+          </div>
+
+          <div class="monitor-box">
+            <h3>Resumen del día</h3>
+            <div class="hero-stats report-stats">
+              <div class="stat-card">
+                <span>Búsquedas corridas</span>
+                <strong id="report-total-searches">0</strong>
+              </div>
+              <div class="stat-card">
+                <span>Hallazgos únicos</span>
+                <strong id="report-total-results">0</strong>
+              </div>
+              <div class="stat-card">
+                <span>Fuentes detectadas</span>
+                <strong id="report-total-sources">0</strong>
+              </div>
+            </div>
+            <div class="report-summary" id="report-summary">Aún no se genera el reporte de hoy.</div>
+          </div>
+        </div>
+
+        <div class="monitor-box">
+          <div class="section-head compact">
+            <div>
+              <h3>Hallazgos del día</h3>
+              <p>Se deduplican enlaces observados hoy, se conserva la consulta origen y se priorizan las señales guardadas desde el radar.</p>
+            </div>
+          </div>
+          <div id="report-results" class="cards-grid"></div>
+        </div>
+      </section>
+
+      <section class="panel-section" id="fuentes">
+        <div class="section-head">
+          <div>
+            <h2>Observaciones guardadas</h2>
+          </div>
+          <div class="filters-inline">
+            <select id="filter-status">
+              <option value="">Todos los estatus</option>
+              <option value="Pendiente">Pendiente</option>
+              <option value="En revisión">En revisión</option>
+              <option value="Contactado">Contactado</option>
+              <option value="Convertido">Convertido</option>
+              <option value="Descartado">Descartado</option>
+            </select>
+            <select id="filter-priority">
+              <option value="">Todas las prioridades</option>
+              <option value="Alta">Alta</option>
+              <option value="Media">Media</option>
+              <option value="Baja">Baja</option>
+            </select>
+          </div>
+        </div>
+        <div id="obs-list" class="cards-grid"></div>
+      </section>
+
+      <section class="panel-section privacy" id="politica">
+        <h2>Política de privacidad operativa</h2>
+        <ul>
+          <li>Este radar es para observación comercial y derivación ética, no para crear bases de datos sensibles de pacientes.</li>
+          <li>No captures diagnóstico, estadio, mutaciones, pronóstico ni información clínica identificable desde publicaciones públicas.</li>
+          <li>Deriva a WhatsApp, formulario o llamada y solicita consentimiento antes de recabar datos personales sensibles.</li>
+          <li>Restringe tu API key de Google por dominio y por API, o muévela a backend para producción.</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
